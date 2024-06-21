@@ -16,26 +16,27 @@ describe('NYWNFT Contract', function () {
   });
 
   it('Create NFT', async function () {
-    // const createTx = await nywNftContract
-    //   .connect(accounts[0])
-    //   .create('test_uri_1');
-    // await createTx.wait();
-
-    await expect(nywNftContract.connect(accounts[0]).create('test_uri_1'))
+    await expect(nywNftContract.connect(accounts[0]).create('test_uri_1', 10))
       .to.emit(nywNftContract, 'NYW__TokenCreated')
-      .withArgs(1, accounts[0].address, 'test_uri_1');
+      .withArgs(1, accounts[0].address, 10, 'test_uri_1');
+  });
+
+  it('Create NFT with wrong royalty', async function () {
+    await expect(
+      nywNftContract.connect(accounts[0]).create('test_uri_2', 40)
+    ).to.be.revertedWith('Royalty should be between 0 to 30');
   });
 
   it('Create another NFT using same user', async function () {
-    await expect(nywNftContract.connect(accounts[0]).create('test_uri_2'))
+    await expect(nywNftContract.connect(accounts[0]).create('test_uri_3', 20))
       .to.emit(nywNftContract, 'NYW__TokenCreated')
-      .withArgs(2, accounts[0].address, 'test_uri_2');
+      .withArgs(2, accounts[0].address, 20, 'test_uri_3');
   });
 
   it('Create another NFT using different user', async function () {
-    await expect(nywNftContract.connect(accounts[1]).create('test_uri_3'))
+    await expect(nywNftContract.connect(accounts[1]).create('test_uri_4', 30))
       .to.emit(nywNftContract, 'NYW__TokenCreated')
-      .withArgs(3, accounts[1].address, 'test_uri_3');
+      .withArgs(3, accounts[1].address, 30, 'test_uri_4');
   });
 
   it('Should return the correct name and symbol', async () => {

@@ -1,4 +1,5 @@
 {
   "solidity.compileUsingRemoteVersion": "v0.8.24+commit.e11b9ed9",
-  "solidity.defaultCompiler": "localNodeModule"
+  "solidity.defaultCompiler": "localNodeModule",
+  "solidity.compileUsingLocalVersion": "e:\\tasks\\NFTMarket_NFT_Contract\\soljson-v0.8.24+commit.e11b9ed9.js"
 }

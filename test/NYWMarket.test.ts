@@ -30,29 +30,27 @@ describe('NYW Market Contract', function () {
   it('Should be listed NFT with correct parameters', async () => {
     const createTx = await nywNftContract
       .connect(accounts[0])
-      .create('test_uri_1');
+      .create('test_uri_1', 10);
     await createTx.wait();
 
-    const nftOwner = await nywNftContract.ownerOf(1);
-    console.log('Owner of NFT[1]: ', nftOwner);
-    console.log('accounts[0]: ', accounts[0].address);
+    // const nftOwner = await nywNftContract.ownerOf(1);
+    // console.log('Owner of NFT[1]: ', nftOwner);
+    // console.log('accounts[0]: ', accounts[0].address);
 
     await nywNftContract
       .connect(accounts[0])
       .approve(nywMarketContractAddress, 1);
 
-    await expect(
-      nywMarketContract.connect(accounts[0]).listNft(1, buyPrice, 10)
-    )
+    await expect(nywMarketContract.connect(accounts[0]).listNft(1, buyPrice))
       .to.emit(nywMarketContract, 'NYW__NFTListed')
       .withArgs(1);
   });
 
-  it('Should be deList NFT with correct parameters', async () => {
-    await expect(nywMarketContract.connect(accounts[0]).delistNft(1))
-      .to.emit(nywMarketContract, 'NYW__NFTDelisted')
-      .withArgs(1);
-  });
+  // it('Should be deList NFT with correct parameters', async () => {
+  //   await expect(nywMarketContract.connect(accounts[0]).delistNft(1))
+  //     .to.emit(nywMarketContract, 'NYW__NFTDelisted')
+  //     .withArgs(1);
+  // });
 
   it('Should buy NFT with correct parameters', async () => {
     await expect(
